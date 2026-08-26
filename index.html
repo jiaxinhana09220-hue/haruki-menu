@@ -273,20 +273,39 @@
             .about-grid { grid-template-columns: 1fr; }
         }
 
-        /* ===== おすすめメニュー ===== */
-        .osusume-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+        /* ===== おすすめメニュー（横スライド） ===== */
+        .osusume-scroll-outer {
+            position: relative;
         }
-        @media (max-width: 600px) {
-            .osusume-grid { grid-template-columns: 1fr; }
+        .osusume-grid {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 4px 4px 14px;
+            scrollbar-width: thin;
+            scrollbar-color: #e0c7a5 transparent;
+        }
+        .osusume-grid::-webkit-scrollbar {
+            height: 6px;
+        }
+        .osusume-grid::-webkit-scrollbar-thumb {
+            background: #e0c7a5;
+            border-radius: 4px;
         }
         .osusume-item {
             background: #ffffff;
             border-radius: 8px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             overflow: hidden;
+            flex: 0 0 auto;
+            width: 220px;
+            scroll-snap-align: start;
+        }
+        @media (max-width: 600px) {
+            .osusume-item { width: 68vw; }
         }
         .osusume-photo {
             width: 100%;
@@ -315,6 +334,34 @@
             font-size: 0.85rem;
             color: #666;
             margin-top: 4px;
+        }
+        .osusume-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 4px;
+        }
+        .osusume-nav-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid #e0c7a5;
+            background: #fff;
+            color: #8b4513;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .osusume-nav-btn:hover, .osusume-nav-btn:active {
+            background: #fef3e8;
+        }
+        .osusume-hint {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #b5a58e;
+            margin-top: 2px;
         }
         .menu-all-link {
             display: block;
@@ -378,17 +425,23 @@
             color: #8b4513;
             font-weight: bold;
         }
+        .access-row .station-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
         .map-embed {
             margin-top: 16px;
             aspect-ratio: 16 / 9;
             background: #f0ece5;
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            font-size: 0.85rem;
-            text-align: center;
+            overflow: hidden;
+        }
+        .map-embed iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
         }
 
         /* ===== フッター ===== */
@@ -473,9 +526,10 @@
 </div>
 </section>
 
-<!-- ===== おすすめメニュー ===== -->
+<!-- ===== おすすめメニュー（横スライド） ===== -->
 <section id="osusume">
 <div class="section-title">おすすめメニュー</div>
+<div class="osusume-scroll-outer">
 <div class="osusume-grid" id="osusumeGrid">
 <div class="osusume-item">
 <div class="osusume-photo" data-img="images/tsukemen-2.jpg">写真挿入</div>
@@ -518,6 +572,12 @@
 </div>
 </div>
 </div>
+<div class="osusume-nav">
+<button class="osusume-nav-btn" id="osusumePrevBtn" type="button" aria-label="前へ">◀</button>
+<button class="osusume-nav-btn" id="osusumeNextBtn" type="button" aria-label="次へ">▶</button>
+</div>
+<p class="osusume-hint">← 横にスライドできます →</p>
+</div>
 <a class="menu-all-link cta-btn primary" href="https://chuka-tsukemen-haruki.github.io/haruki-menu/menu.html" target="_blank" rel="noopener" style="display:inline-block; margin: 18px auto 0;">全125品のメニューを見る</a>
 </section>
 
@@ -529,9 +589,23 @@
 <div class="access-row"><span class="label">営業時間</span><span>11:00〜15:00 / 17:00〜翌1:00</span></div>
 <div class="access-row"><span class="label">定休日</span><span>水曜日</span></div>
 <div class="access-row"><span class="label">電話番号</span><span><a href="tel:0457133558">045-713-3558</a></span></div>
-<div class="access-row"><span class="label">最寄り駅</span><span>【ここに最寄り駅・駐車場情報を入力】</span></div>
+<div class="access-row">
+<span class="label">最寄り駅</span>
+<span class="station-list">
+<span>横浜市営地下鉄ブルーライン「蒔田駅」出口1から徒歩約2〜3分</span>
+<span>「南太田駅」出口1から徒歩約11分</span>
+</span>
 </div>
-<div class="map-embed">Googleマップ埋め込み予定<br>（iframeに差し替え）</div>
+</div>
+<div class="map-embed">
+<iframe
+  src="https://www.google.com/maps?q=%E7%A5%9E%E5%A5%88%E5%B7%9D%E7%9C%8C%E6%A8%AA%E6%B5%9C%E5%B8%82%E5%8D%97%E5%8C%BA%E5%AE%AE%E5%85%83%E7%94%BA2-31-4%20%E6%98%A5%E6%B1%9F%E3%83%93%E3%83%AB1F&output=embed"
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade"
+  title="中華 つけ麺 はるき 地図"
+  allowfullscreen>
+</iframe>
+</div>
 </section>
 
 </div>
@@ -872,6 +946,26 @@ async function initOsusumeRanking() {
 }
 
 initOsusumeRanking();
+</script>
+
+<script>
+// ===== おすすめメニュー：横スライド用の矢印ボタン =====
+(function() {
+  const grid = document.getElementById('osusumeGrid');
+  const prevBtn = document.getElementById('osusumePrevBtn');
+  const nextBtn = document.getElementById('osusumeNextBtn');
+  if (!grid || !prevBtn || !nextBtn) return;
+
+  function scrollByCard(direction) {
+    const card = grid.querySelector('.osusume-item');
+    const gap = 15;
+    const cardWidth = card ? card.getBoundingClientRect().width + gap : 220;
+    grid.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+  }
+
+  prevBtn.addEventListener('click', function() { scrollByCard(-1); });
+  nextBtn.addEventListener('click', function() { scrollByCard(1); });
+})();
 </script>
 
 <script>

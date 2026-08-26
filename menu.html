@@ -106,14 +106,21 @@
                 box-sizing: border-box;
             }
         }
-        .spec {
-            font-size: 0.9rem;
-            color: #555;
-            background: #fff8f0;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-            line-height: 1.8;
+.spec {
+    font-size: 0.95rem;
+    color: #6e3610;
+    background: #fff3e0;
+    border: 1px solid #e8b988;
+    padding: 12px 14px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    line-height: 1.9;
+    font-weight: 600;
+}
+.spec .spec-highlight {
+    color: #c0392b;
+    font-weight: 800;
+}
         }
         .topping {
             font-size: 0.9rem;
@@ -123,6 +130,79 @@
             border-radius: 4px;
             margin-bottom: 20px;
         }
+.topping-label {
+    font-weight: bold;
+    color: #8b4513;
+    margin-bottom: 8px;
+    display: block;
+}
+.topping-price-group {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+.topping-price-group:last-child {
+    margin-bottom: 0;
+}
+.topping-price-tag {
+    background: #c0392b;
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.8rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+.topping-price-items {
+    font-size: 0.85rem;
+    color: #5c4a35;
+}
+/* ===== スティッキー情報の折りたたみ ===== */
+.sticky-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #d2691e;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(210,105,30,0.35);
+    transition: transform 0.15s, background 0.15s;
+}
+.sticky-toggle:hover,
+.sticky-toggle:active {
+    background: #b85715;
+    transform: scale(1.02);
+}
+.sticky-toggle-arrow {
+    font-size: 0.75rem;
+    transition: transform 0.2s;
+    background: rgba(255,255,255,0.25);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.category-sticky-info.expanded .sticky-toggle-arrow {
+    transform: rotate(180deg);
+}
+.sticky-details {
+    display: none;
+    margin-top: 8px;
+}
+.category-sticky-info.expanded .sticky-details {
+    display: block;
+}
         .menu-grid {
             display: grid;
             gap: 15px;
@@ -198,20 +278,6 @@
             font-weight: bold;
             padding: 14px 16px;
             border-left: 5px solid #d2691e;
-            details.menu-category summary {
-    list-style: none;
-    cursor: pointer;
-    background: #fef3e8;
-    color: #8b4513;
-    font-size: 1.15rem;
-    font-weight: bold;
-    padding: 14px 16px;
-    border-left: 5px solid #d2691e;
-    border-radius: 8px 8px 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -857,12 +923,29 @@
 <summary>つけ麺メニュー<span class="cat-count">13品</span></summary>
 <div class="category-body">
 <div class="category-sticky-info">
-<div class="spec">※特製：味玉＋具が1.5倍<br/>並盛400g　大盛り600g　特盛800g　メガ盛り1200g<br/>大盛り＋0円　特盛＋180円　メガ盛り＋500円</div>
+<button class="sticky-toggle" type="button">
+<span>📋 盛り・トッピング詳細</span>
+<span class="sticky-toggle-arrow">▼</span>
+</button>
+<div class="sticky-details">
+<div class="spec">※特製：<span class="spec-highlight">味玉＋具が1.5倍</span><br/>並盛400g　大盛り600g（+0円）　特盛800g（+180円）　メガ盛り1200g（+500円）</div>
 <div class="topping">
-            【トッピング】<br/>
-            バター：50円 / チャーシュー：280円 / ネギ・玉ねぎ・のり・野菜・わかめ・メンマ・味玉：各130円
-        </div>
-</div>      
+<span class="topping-label">【トッピング】</span>
+<div class="topping-price-group">
+<span class="topping-price-tag">280円</span>
+<span class="topping-price-items">チャーシュー</span>
+</div>
+<div class="topping-price-group">
+<span class="topping-price-tag">130円</span>
+<span class="topping-price-items">ネギ・玉ねぎ・のり・野菜・わかめ・メンマ・味玉</span>
+</div>
+<div class="topping-price-group">
+<span class="topping-price-tag">50円</span>
+<span class="topping-price-items">バター</span>
+</div>
+</div>
+</div>
+</div>
 <div class="subcats"><details class="sub-category" id="section-tsukemen-sub0"><summary>豚骨魚介つけ麺<span class="sub-count">4品</span></summary><div class="menu-grid"><div class="menu-item" data-id="tsukemen-1" data-tags="noodle">
 <div class="photo" data-name="つけ麺">写真挿入</div>
 <div class="info">
@@ -1000,11 +1083,28 @@
 <summary>ラーメンメニュー<span class="cat-count">13品</span></summary>
 <div class="category-body">
 <div class="category-sticky-info">       
-<div class="spec">※特製：味玉＋具が1.5倍<br/>並盛270g　大盛り400g　大盛り＋0円<br/>辛さ調整：ピリ辛＋0円 / 中辛＋0円 / 大辛＋50円 / 激辛＋80円</div>
+<button class="sticky-toggle" type="button">
+<span>📋 盛り・トッピング詳細</span>
+<span class="sticky-toggle-arrow">▼</span>
+</button>
+<div class="sticky-details">
+<div class="spec">※特製：<span class="spec-highlight">味玉＋具が1.5倍</span><br/>並盛270g　大盛り400g（+0円）<br/>辛さ調整：ピリ辛（+0円） / 中辛（+0円） / 大辛（+50円） / 激辛（+80円）</div>
 <div class="topping">
-            【トッピング】<br/>
-            バター：50円 / チャーシュー：280円 / ネギ・玉ねぎ・のり・野菜・わかめ・メンマ・味玉：各130円
-        </div>
+<span class="topping-label">【トッピング】</span>
+<div class="topping-price-group">
+<span class="topping-price-tag">280円</span>
+<span class="topping-price-items">チャーシュー</span>
+</div>
+<div class="topping-price-group">
+<span class="topping-price-tag">130円</span>
+<span class="topping-price-items">ネギ・玉ねぎ・のり・野菜・わかめ・メンマ・味玉</span>
+</div>
+<div class="topping-price-group">
+<span class="topping-price-tag">50円</span>
+<span class="topping-price-items">バター</span>
+</div>
+</div>
+</div>
 </div>
 <div class="subcats"><details class="sub-category" id="section-ramen-sub0"><summary>醤油ラーメン<span class="sub-count">4品</span></summary><div class="menu-grid"><div class="menu-item" data-id="ramen-1" data-tags="noodle">
 <div class="photo" data-name="ラーメン">写真挿入</div>
@@ -2486,6 +2586,16 @@ if (collapseAllBtn) {
     });
   });
 }
+
+// ===== スティッキー情報（盛り・トッピング詳細）の開閉 =====
+document.querySelectorAll('.sticky-toggle').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    const container = btn.closest('.category-sticky-info');
+    if (container) {
+      container.classList.toggle('expanded');
+    }
+  });
+});
 
 // ===== お気に入り専用パネルの開閉 =====
 const favPanel = document.getElementById('favPanel');
